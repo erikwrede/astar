@@ -1,3 +1,5 @@
+package com.erikwrede.astar;
+
 import lombok.Getter;
 
 import java.util.ArrayList;

@@ -1,3 +1,5 @@
+package com.erikwrede.astar;
+
 import lombok.Getter;
 
 /**
@@ -14,7 +16,7 @@ public class CartesianSystem {
         parseNodes(nodes);
     }
 
-    private void parseNodes(int[][] obstacleMap) {
+    public void parseNodes(int[][] obstacleMap) {
         system = new Node[obstacleMap.length][];
         System.out.println(obstacleMap.length);
         for (int x = 0; x < obstacleMap.length; x++) {

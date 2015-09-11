@@ -1,3 +1,5 @@
+package com.erikwrede.astar;
+
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

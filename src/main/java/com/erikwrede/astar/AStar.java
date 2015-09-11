@@ -1,3 +1,5 @@
+package com.erikwrede.astar;
+
 /**
  * @author Erik
  */
@@ -7,15 +9,15 @@ public class AStar {
     private Node goal;
     public static void main(String[] args){
         CartesianSystem system = new CartesianSystem(new int[][]{
-                new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1},
+                new int[]{1,1,1,1,1,1,1,1,1,1,1,1,0},
                 new int[]{1,0,0,0,1,0,1,0,0,0,0,0,1},
                 new int[]{1,1,0,0,0,0,0,0,1,0,0,0,1},
                 new int[]{1,0,1,0,1,0,1,0,1,0,0,0,1},
                 new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1}
         });
-        Node goal = system.getSystem()[1][9];
+        Node goal = system.getSystem()[0][11];
         Node beginning = system.getSystem()[1][1];
-        new AStar().startAStar(system,beginning,goal);
+        new AStar().startAStar(system, beginning, goal);
     }
 
     public void startAStar(CartesianSystem system, Node beginning, Node goal){
@@ -38,6 +40,10 @@ public class AStar {
         printCharArr(visualization);
 
         while (true){
+            if(path == null) {
+                System.out.println("No Solution found!");
+                System.exit(1);
+            }
             if(path.getCurrent().equals(goal)){
                 container.getPaths().remove(path);
                 printPretty(path);
@@ -45,17 +51,29 @@ public class AStar {
                 System.exit(0);
 
             }
-            if(!(path.getCurrent().getEast().isObstacle() || path.getCurrent().getEast().equals(path.getBefore())) && path.getCurrent().getEast() != null){
-                container.add(new Path(path).add(path.getCurrent().getEast()));
+            if(!(path.getCurrent().getEast().isObstacle() || path.getCurrent().getEast().equals(path.getBefore()))){
+                Path npath = new Path(path);
+                if(npath.add(path.getCurrent().getEast())){
+                    container.add(npath);
+                }
             }
-            if(!(path.getCurrent().getWest().isObstacle() || path.getCurrent().getWest().equals(path.getBefore())) && path.getCurrent().getWest() != null){
-                container.add(new Path(path).add(path.getCurrent().getWest()));
+            if(!(path.getCurrent().getWest().isObstacle() || path.getCurrent().getWest().equals(path.getBefore()))){
+                Path npath = new Path(path);
+                if(npath.add(path.getCurrent().getWest())){
+                    container.add(npath);
+                }
             }
-            if(!(path.getCurrent().getNorth().isObstacle() || path.getCurrent().getNorth().equals(path.getBefore())) && path.getCurrent().getNorth() != null){
-                container.add(new Path(path).add(path.getCurrent().getNorth()));
+            if(!(path.getCurrent().getNorth().isObstacle() || path.getCurrent().getNorth().equals(path.getBefore()))){
+                Path npath = new Path(path);
+                if(npath.add(path.getCurrent().getNorth())){
+                    container.add(npath);
+                }
             }
-            if(!(path.getCurrent().getSouth().isObstacle() || path.getCurrent().getSouth().equals(path.getBefore())) && path.getCurrent().getSouth() != null){
-                container.add(new Path(path).add(path.getCurrent().getSouth()));
+            if(!(path.getCurrent().getSouth().isObstacle() || path.getCurrent().getSouth().equals(path.getBefore()))){
+                Path npath = new Path(path);
+                if(npath.add(path.getCurrent().getSouth())){
+                    container.add(npath);
+                }
             }
             container.getPaths().remove(path);
             path = container.getMostPromising();

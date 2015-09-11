@@ -1,3 +1,5 @@
+package com.erikwrede.astar;
+
 import lombok.Getter;
 import lombok.ToString;
 
@@ -24,31 +26,34 @@ public class Path {
         this.goal = goal;
     }
 
-    public Path(Path from){
+    public Path(Path from) {
         this.nodes = new ArrayList<>(from.getNodes());
         this.goal = from.getGoal();
         this.g = from.getG();
         this.h = from.getH();
     }
 
-    public Node getCurrent(){
-        return nodes.get(nodes.size()-1);
+    public Node getCurrent() {
+        return nodes.get(nodes.size() - 1);
     }
 
-    public Node getBefore(){
-        int index = nodes.size()-2;
-        if(index < 0) return getCurrent();
+    public Node getBefore() {
+        int index = nodes.size() - 2;
+        if (index < 0) return getCurrent();
         return nodes.get(index);
     }
 
-    public Path add(Node n){
-        nodes.add(n);
-        g++;
-        h = n.distance(goal);
-        return this;
+    public boolean add(Node n) {
+        if (!nodes.contains(n)) {
+            nodes.add(n);
+            g++;
+            h = n.distance(goal);
+            return true;
+        }
+        return false;
     }
 
-    public double getF(){
+    public double getF() {
         return g + h;
     }
 }
